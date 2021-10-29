@@ -226,9 +226,6 @@ myEnemy = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Enemy)
 forever(function () {
-    music.playMelody("- - - - - - - - ", 120)
-})
-forever(function () {
     tiles.placeOnRandomTile(myEnemy, assets.tile`myTile5`)
     myEnemy.vx = 0
     animation.runImageAnimation(
