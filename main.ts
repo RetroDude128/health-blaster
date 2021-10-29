@@ -72,7 +72,8 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     )
 })
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, otherSprite) {
-	
+    a += 1
+    myEnemy.vy = -100
 })
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.All, mySprite)
@@ -144,10 +145,12 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
-info.onLifeZero(function () {
-    info.setLife(3)
+sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSprite) {
+    info.changeLifeBy(-1)
 })
+let a = 0
 let projectile: Sprite = null
+let myEnemy: Sprite = null
 let mySprite: Sprite = null
 mySprite = sprites.create(img`
     . e . e e e . . 
@@ -203,7 +206,7 @@ let mySprite3 = sprites.create(img`
 scene.cameraFollowSprite(mySprite3)
 mySprite3.setPosition(0, 0)
 mySprite3.follow(mySprite2, 200)
-let myEnemy = sprites.create(img`
+myEnemy = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
@@ -420,11 +423,142 @@ forever(function () {
         . . . . f f f f f f f f . . . . 
         . . . . . f f f f f f . . . . . 
         `)
-    myEnemy.vx = randint(-50, 50)
+    myEnemy.vx = randint(0, 1) * 100 - 50
     myEnemy.setBounceOnWall(true)
-    while (false) {
+    while (a < 5) {
         pause(1)
     }
+    a = 0
+    animation.runImageAnimation(
+    myEnemy,
+    [img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . f f f f f f f f . . . . 
+        . . . . f f 2 f f 2 f f . . . . 
+        . . . . f f 2 f f 2 f f . . . . 
+        . . . . f f f f f f f f . . . . 
+        . . . . f f f 2 2 f f f . . . . 
+        . . . . f f f f f f f f . . . . 
+        . . . . . f f f f f f . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . f f f f f f f f . . . . 
+        . . . . f f 2 f f 2 f f . . . . 
+        . . . . f f 2 4 5 2 f f . . . . 
+        . . . . f f f 4 4 f f f . . . . 
+        . . . . f f f 2 2 f f f . . . . 
+        . . . . f f f f f f f f . . . . 
+        . . . . . f f f f f f . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . f f 4 f f f . . . . . 
+        . . . . f f 4 4 5 f f f . . . . 
+        . . . . f 4 4 5 5 5 4 f . . . . 
+        . . . . f 4 5 5 5 4 f f . . . . 
+        . . . . f f 4 5 5 4 f f . . . . 
+        . . . . f f f 4 4 4 f f . . . . 
+        . . . . f f f f f f f f . . . . 
+        . . . . . f f f f f f . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . 4 4 4 4 4 4 . . . . . . 
+        . . . . 4 4 5 4 4 4 4 4 . . . . 
+        . . . 4 4 5 5 4 4 4 4 4 4 . . . 
+        . 4 4 4 4 5 5 5 5 5 5 4 4 4 . . 
+        . 4 4 4 4 5 5 5 5 5 5 4 4 4 . . 
+        . . . 4 4 4 5 5 5 5 5 4 4 . . . 
+        . . . 4 4 4 5 5 5 5 4 4 4 . . . 
+        . . . . 4 4 4 4 4 4 4 4 4 . . . 
+        . . . . . 4 4 4 4 4 4 4 . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . 4 4 4 4 . . . . . . . . . 
+        . . . 4 4 5 4 . . . . . 4 4 . . 
+        . . 4 4 5 5 4 . . . . 4 4 4 4 . 
+        4 4 4 4 5 4 4 . . . 4 5 5 4 4 . 
+        4 4 4 4 4 4 4 . 2 . 4 4 4 4 . . 
+        . . . . . 2 2 2 2 2 . . . . . . 
+        . . . . . . 2 2 2 . . . . . . . 
+        . . . . . . . 2 4 4 4 4 . . . . 
+        . . . . . . . 4 5 5 5 4 4 . . . 
+        . . . . . 4 4 4 5 5 4 4 4 4 4 . 
+        . . . . . . 4 4 4 4 4 4 4 4 4 . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . 4 4 4 4 . . . . . . . . . . . 
+        4 4 5 5 4 . . . . . . . . . . . 
+        4 4 5 4 4 . . . . . . . . 4 4 4 
+        . 4 4 4 . . . . . . . . 4 4 5 4 
+        . . . . . . . . . . . . . . 4 4 
+        . . . . . . 2 . 2 . . . . . . . 
+        . . . . . 2 2 2 2 2 . . . . . . 
+        . . . . . . 2 2 2 . . . . . . . 
+        . . . . . . . 2 . 4 4 4 . . . . 
+        . . . . . . . . 4 4 4 4 4 4 . . 
+        . . . . . . . . 4 5 5 5 5 4 . . 
+        . . . . . . . . . 4 4 4 4 4 . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . 2 . 2 . . . . . . . 
+        . . . . . 2 2 2 2 2 . . . . . . 
+        . . . . . . 2 2 2 . . . . . . . 
+        . . . . . . . 2 . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `],
+    100,
+    false
+    )
+    pause(600)
+    animation.stopAnimation(animation.AnimationTypes.All, myEnemy)
+    info.changeLifeBy(3)
+    mySprite.vx = 0
+    mySprite.vy = 0
 })
 forever(function () {
     mySprite.vy += 5
