@@ -147,6 +147,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
+    mySprite.vy = -100
 })
 let a = 0
 let projectile: Sprite = null
@@ -224,6 +225,9 @@ myEnemy = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Enemy)
+forever(function () {
+    music.playMelody("- - - - - - - - ", 120)
+})
 forever(function () {
     tiles.placeOnRandomTile(myEnemy, assets.tile`myTile5`)
     myEnemy.vx = 0
@@ -556,7 +560,7 @@ forever(function () {
     )
     pause(600)
     animation.stopAnimation(animation.AnimationTypes.All, myEnemy)
-    info.changeLifeBy(3)
+    info.changeLifeBy(5)
     mySprite.vx = 0
     mySprite.vy = 0
 })
@@ -564,4 +568,7 @@ forever(function () {
     mySprite.vy += 5
     myEnemy.vy += 5
     mySprite2.setPosition(Math.round(mySprite.x / 160) * 160, 30)
+})
+forever(function () {
+    music.playMelody(music.convertRTTTLToMelody("Health Bla:d=4,o=5,b=150:8c,8g4,8a4,8e4,8c4,8e4,8c4,8a4,8e4,8c4,8e4,8a4,8e4,8a4,8e4,8c4,8g4,8d4,8e4,8c4,8e4,8c4,8d4,8c4,8e4,8c4,8d4,8e4,8g4,8e4,8d4,8d"), 300)
 })
